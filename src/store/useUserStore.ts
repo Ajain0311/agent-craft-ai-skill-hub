@@ -23,7 +23,7 @@ const mockCurrentUser: User = {
   avatarUrl: 'https://api.dicebear.com/7.x/initials/svg?seed=AS&backgroundColor=a21caf,c026d3,d946ef,f472b6,f9a8d4&backgroundType=gradientLinear',
 };
 
-export const useUserStore = create<UserState>((set) => ({
+export const useUserStore = create<UserState>((_set) => ({
   currentUser: mockCurrentUser,
   // login: (user) => set({ currentUser: user }),
   // logout: () => set({ currentUser: null }),

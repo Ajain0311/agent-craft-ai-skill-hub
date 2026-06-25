@@ -1,30 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Layout } from './components/layout/Layout'; // Assuming this exists from previous tasks
+import { Layout } from './components/Layout';
 import { ToastNotification } from './components/common/ToastNotification';
-
-// Assuming these pages exist from previous tasks
 import { HomePage } from './pages/HomePage';
 import { SkillsListPage } from './pages/SkillsListPage';
 import { SkillDetailPage } from './pages/SkillDetailPage';
-import { CreateSkillPage } from './pages/CreateSkillPage';
-import { EditSkillPage } from './pages/EditSkillPage';
-import { UserProfilePage } from './pages/UserProfilePage';
+import { NewSkillPage } from './pages/NewSkillPage';
+import EditSkillPage from './pages/EditSkillPage';
 
 function App() {
   return (
     <Router>
-      <ToastNotification /> {/* Render the toast notification component here */}
-      <Layout>
-        <Routes>
+      <ToastNotification />
+      <Routes>
+        <Route element={<Layout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/skills" element={<SkillsListPage />} />
-          <Route path="/skills/new" element={<CreateSkillPage />} />
+          <Route path="/skills/new" element={<NewSkillPage />} />
           <Route path="/skills/:id" element={<SkillDetailPage />} />
-          <Route path="/skills/:id/edit" element={<EditSkillPage />} />
-          <Route path="/profile/:userId" element={<UserProfilePage />} />
-          {/* Add other routes as needed */}
-        </Routes>
-      </Layout>
+          <Route path="/skills/:skillId/edit" element={<EditSkillPage />} />
+        </Route>
+      </Routes>
     </Router>
   );
 }

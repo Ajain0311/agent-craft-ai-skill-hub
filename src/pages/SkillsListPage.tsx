@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from 'react';
-import { useSkillStore, Skill, SkillTag } from '../store/skillStore';
+import { useSkillStore, SkillTag } from '../store/skillStore';
 import SearchBar from '../components/common/SearchBar';
 import TagFilter from '../components/common/TagFilter';
-import SkillCard from '../components/skills/SkillCard';
+import { SkillCard } from '../components/skills/SkillCard';
 import { Frown } from 'lucide-react';
 
-const SkillsListPage: React.FC = () => {
+export const SkillsListPage: React.FC = () => {
   const allSkills = useSkillStore((state) => state.skills);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [selectedTags, setSelectedTags] = useState<SkillTag[]>([]);

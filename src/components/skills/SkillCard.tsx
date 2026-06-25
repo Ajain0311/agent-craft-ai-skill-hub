@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { formatSkillDate } from '../../utils/dateHelpers';
 import { Skill } from '../../store/skillStore'; // Assuming Skill type exists

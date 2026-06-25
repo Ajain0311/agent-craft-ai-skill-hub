@@ -48,11 +48,10 @@ export const Sidebar: React.FC = () => {
               key={item.name}
               to={item.path}
               onClick={closeSidebar} // Close sidebar on link click for mobile
-              className={({ isActive }) =>
+              className={({ isActive }: { isActive: boolean }) =>
                 `flex items-center px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200
                 ${isActive ? activeLinkClasses : normalLinkClasses}`
               }
-              aria-current={({ isActive }) => (isActive ? 'page' : undefined)}
             >
               <item.icon className="h-5 w-5 mr-3" />
               {item.name}

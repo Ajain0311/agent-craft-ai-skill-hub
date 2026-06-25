@@ -1,18 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import SkillForm from '../components/forms/SkillForm';
-import { useSkillStore, Skill } from '../store/skillStore';
-import { Helmet } from 'react-helmet-async';
-
-// Infer the form values type from the schema used in SkillForm
-// This is a bit redundant but ensures type safety without importing the schema directly
-type SkillFormValues = {
-  name: string;
-  description: string;
-  prompt: string;
-  tags?: string;
-  category: Skill['category'];
-};
+import SkillForm, { SkillFormInputs } from '../components/forms/SkillForm';
+import { useSkillStore } from '../store/skillStore';
 
 const EditSkillPage: React.FC = () => {
   const { skillId } = useParams<{ skillId: string }>();
@@ -23,23 +12,31 @@ const EditSkillPage: React.FC = () => {
 
   const skillToEdit = skillId ? getSkillById(skillId) : undefined;
 
-  const handleSubmit = async (data: SkillFormValues) => {
-    if (!skillId) return; // Should not happen if skillId is in URL
+  const initialData: SkillFormInputs | undefined = skillToEdit
+    ? {
+        id: skillToEdit.id,
+        name: skillToEdit.name,
+        description: skillToEdit.description,
+        prompt: skillToEdit.prompt,
+        tags: skillToEdit.tags,
+        isPublic: skillToEdit.isPublic ?? false,
+      }
+    : undefined;
 
+  const handleSubmit = async (data: SkillFormInputs) => {
+    if (!skillId) return;
     setIsLoading(true);
     try {
-      const updatedSkillData = {
+      updateSkill(skillId, {
         name: data.name,
         description: data.description,
         prompt: data.prompt,
-        tags: data.tags ? data.tags.split(',').map(tag => tag.trim()).filter(Boolean) : [],
-        category: data.category,
-      };
-      updateSkill(skillId, updatedSkillData);
-      navigate(`/skills/${skillId}`); // Navigate back to the skill detail page
+        tags: data.tags ?? [],
+        isPublic: data.isPublic,
+      });
+      navigate(`/skills/${skillId}`);
     } catch (error) {
       console.error('Failed to update skill:', error);
-      // Optionally show an error message to the user
     } finally {
       setIsLoading(false);
     }
@@ -71,12 +68,16 @@ const EditSkillPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 sm:p-6 lg:p-8">
-      <Helmet>
-        <title>Edit Skill: {skillToEdit.name} - AgentCraft</title>
-        <meta name="description" content={`Edit the AI skill "${skillToEdit.name}" on AgentCraft.`} />
-      </Helmet>
-      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-6">Edit Skill: {skillToEdit.name}</h1>
-      <SkillForm initialData={skillToEdit} onSubmit={handleSubmit} isEditing={true} isLoading={isLoading} />
+      <h1 className="text-3xl font-extrabold text-gray-900 dark:text-gray-100 mb-6">
+        Edit Skill: {skillToEdit.name}
+      </h1>
+      <SkillForm
+        initialData={initialData}
+        onSubmit={handleSubmit}
+        onCancel={() => navigate(`/skills/${skillId}`)}
+        isEditing={true}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

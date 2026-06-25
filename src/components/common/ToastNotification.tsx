@@ -18,23 +18,15 @@ export function ToastNotification() {
         },
         success: {
           duration: 3000,
-          theme: {
-            primary: 'green',
-            secondary: 'black',
-          },
           style: {
-            background: '#22c55e', // Tailwind green-500
+            background: '#22c55e',
             color: '#fff',
           },
         },
         error: {
           duration: 4000,
-          theme: {
-            primary: 'red',
-            secondary: 'black',
-          },
           style: {
-            background: '#ef4444', // Tailwind red-500
+            background: '#ef4444',
             color: '#fff',
           },
         },
